@@ -41,6 +41,3 @@ basic.forever(function () {
     robotbit.GeekServo(robotbit.Servos.S1, cntr)
     basic.pause(100)
 })
-control.inBackground(function () {
-	
-})
