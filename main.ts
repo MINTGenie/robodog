@@ -1,64 +1,41 @@
 robotbit.MotorStopAll()
-music.setVolume(10)
-music.playTone(587, music.beat(BeatFraction.Half))
-music.rest(music.beat(BeatFraction.Half))
-music.playTone(523, music.beat(BeatFraction.Quarter))
-let cntr = 0
-cntr = 50
+makerbit.connectUltrasonicDistanceSensor(DigitalPin.P12, DigitalPin.P8)
+let cntr = 50
 let SPEED = 500
 let left = true
-makerbit.connectUltrasonicDistanceSensor(DigitalPin.P2, DigitalPin.P1)
-basic.showNumber(3)
-basic.pause(500)
-basic.showNumber(2)
-basic.pause(200)
-basic.showNumber(1)
-basic.pause(100)
-basic.showIcon(IconNames.Happy)
+let yellow_bin = game.createSprite(0, 4)
+let blue_bin = game.createSprite(2, 4)
+let grey_bin = game.createSprite(4, 4)
 basic.forever(function () {
-    if (makerbit.isUltrasonicDistanceLessThan(10, DistanceUnit.CM)) {
-        robotbit.MotorRunDual(
-        robotbit.Motors.M1A,
-        SPEED,
-        robotbit.Motors.M2B,
-        SPEED
-        )
-        basic.pause(200)
-        if (left) {
-            robotbit.MotorRunDual(
-            robotbit.Motors.M1A,
-            SPEED,
-            robotbit.Motors.M2B,
-            0 - SPEED
-            )
-        } else {
-            robotbit.MotorRunDual(
-            robotbit.Motors.M1A,
-            0 - SPEED,
-            robotbit.Motors.M2B,
-            SPEED
-            )
+    if (makerbit.isUltrasonicDistanceLessThan(20, DistanceUnit.CM)) {
+        if (cntr >= 20 && cntr <= 40) {
+            yellow_bin.change(LedSpriteProperty.Y, -1)
+        } else if (cntr >= 90 && cntr <= 130) {
+            blue_bin.change(LedSpriteProperty.Y, -1)
+        } else if (cntr >= 160 && cntr <= 190) {
+            grey_bin.change(LedSpriteProperty.Y, -1)
         }
-        basic.pause(200)
-    } else {
-        robotbit.MotorRunDual(
-        robotbit.Motors.M1A,
-        0 - SPEED,
-        robotbit.Motors.M2B,
-        0 - SPEED
-        )
     }
+    if (yellow_bin.get(LedSpriteProperty.Y) == 0) {
+        yellow_bin.set(LedSpriteProperty.Y, 4)
+    } else if (blue_bin.get(LedSpriteProperty.Y) == 0) {
+        blue_bin.set(LedSpriteProperty.Y, 4)
+    } else if (grey_bin.get(LedSpriteProperty.Y) == 0) {
+        grey_bin.set(LedSpriteProperty.Y, 4)
+    }
+})
+basic.forever(function () {
     if (left) {
-        cntr += 10
-        if (cntr >= 110) {
+        cntr += 5
+        if (cntr >= 190) {
             left = false
         }
     } else {
-        cntr += -10
-        if (cntr <= 50) {
+        cntr += -5
+        if (cntr <= 10) {
             left = true
         }
     }
     robotbit.GeekServo(robotbit.Servos.S1, cntr)
-    basic.pause(100)
+    basic.pause(60)
 })
