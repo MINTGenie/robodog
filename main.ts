@@ -26,13 +26,25 @@ basic.forever(function () {
 })
 basic.forever(function () {
     if (left) {
+        robotbit.MotorRunDual(
+        robotbit.Motors.M1A,
+        50,
+        robotbit.Motors.M1B,
+        -50
+        )
         cntr += 5
-        if (cntr >= 190) {
+        if (cntr >= 170) {
             left = false
         }
     } else {
+        robotbit.MotorRunDual(
+        robotbit.Motors.M1B,
+        50,
+        robotbit.Motors.M1A,
+        -50
+        )
         cntr += -5
-        if (cntr <= 10) {
+        if (cntr <= 25) {
             left = true
         }
     }
